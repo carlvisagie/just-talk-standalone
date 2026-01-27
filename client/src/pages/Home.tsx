@@ -5,6 +5,8 @@ import { Phone, Shield, Clock, Heart, CreditCard, MessageCircle } from "lucide-r
 import { trpc } from "@/lib/trpc";
 import { useToast } from "@/hooks/use-toast";
 import EmbeddedChat from "@/components/EmbeddedChat";
+import MeetSage from "@/components/MeetSage";
+import Testimonials from "@/components/Testimonials";
 
 export default function Home() {
   const { toast } = useToast();
@@ -158,6 +160,8 @@ export default function Home() {
         </div>
       </div>
 
+      <MeetSage />
+
       {/* SECTION 3: THE QUESTION - WHEN WAS THE LAST TIME */}
       <div className="container mx-auto px-4 py-20 relative z-10">
         <div className="max-w-3xl mx-auto text-center">
@@ -263,6 +267,8 @@ export default function Home() {
           </p>
         </div>
       </div>
+
+      <Testimonials />
 
       {/* SECTION 6: THE OFFER - TIERS */}
       <div className="container mx-auto px-4 py-20 relative z-10">
