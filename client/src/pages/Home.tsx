@@ -463,7 +463,7 @@ export default function Home() {
       </div>
 
       {/* FOOTER */}
-      <footer className="container mx-auto px-4 py-12 relative z-10 border-t border-white/10">
+      <footer className="container mx-auto px-4 py-12 relative z-0 border-t border-white/10">
         <div className="max-w-4xl mx-auto">
           <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4 mb-8 text-center">
             <p className="text-yellow-200 text-sm">
