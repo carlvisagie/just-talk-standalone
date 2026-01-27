@@ -1,0 +1,101 @@
+{
+  "query": "SELECT COLUMN_NAME, COLUMN_TYPE, IS_NULLABLE, COLUMN_KEY, COLUMN_DEFAULT FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'g8bsF67YVgm3xfbsaaDV9x' AND TABLE_NAME = 'subscription' ORDER BY ORDINAL_POSITION;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ygUAfurMsr4XGZ.ca3efd02a97c --database g8bsF67YVgm3xfbsaaDV9x --execute SELECT COLUMN_NAME, COLUMN_TYPE, IS_NULLABLE, COLUMN_KEY, COLUMN_DEFAULT FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'g8bsF67YVgm3xfbsaaDV9x' AND TABLE_NAME = 'subscription' ORDER BY ORDINAL_POSITION;",
+  "rows": [
+    {
+      "COLUMN_NAME": "id",
+      "COLUMN_TYPE": "varchar(255)",
+      "IS_NULLABLE": "NO",
+      "COLUMN_KEY": "PRI",
+      "COLUMN_DEFAULT": "NULL"
+    },
+    {
+      "COLUMN_NAME": "user_id",
+      "COLUMN_TYPE": "varchar(255)",
+      "IS_NULLABLE": "NO",
+      "COLUMN_KEY": "UNI",
+      "COLUMN_DEFAULT": "NULL"
+    },
+    {
+      "COLUMN_NAME": "stripe_customer_id",
+      "COLUMN_TYPE": "varchar(255)",
+      "IS_NULLABLE": "YES",
+      "COLUMN_KEY": "",
+      "COLUMN_DEFAULT": "NULL"
+    },
+    {
+      "COLUMN_NAME": "stripe_subscription_id",
+      "COLUMN_TYPE": "varchar(255)",
+      "IS_NULLABLE": "YES",
+      "COLUMN_KEY": "",
+      "COLUMN_DEFAULT": "NULL"
+    },
+    {
+      "COLUMN_NAME": "status",
+      "COLUMN_TYPE": "varchar(50)",
+      "IS_NULLABLE": "NO",
+      "COLUMN_KEY": "",
+      "COLUMN_DEFAULT": "NULL"
+    },
+    {
+      "COLUMN_NAME": "price_id",
+      "COLUMN_TYPE": "varchar(255)",
+      "IS_NULLABLE": "YES",
+      "COLUMN_KEY": "",
+      "COLUMN_DEFAULT": "NULL"
+    },
+    {
+      "COLUMN_NAME": "current_period_end",
+      "COLUMN_TYPE": "timestamp",
+      "IS_NULLABLE": "YES",
+      "COLUMN_KEY": "",
+      "COLUMN_DEFAULT": "NULL"
+    },
+    {
+      "COLUMN_NAME": "cancel_at_period_end",
+      "COLUMN_TYPE": "tinyint(1)",
+      "IS_NULLABLE": "NO",
+      "COLUMN_KEY": "",
+      "COLUMN_DEFAULT": "0"
+    },
+    {
+      "COLUMN_NAME": "founding_member",
+      "COLUMN_TYPE": "tinyint(1)",
+      "IS_NULLABLE": "NO",
+      "COLUMN_KEY": "",
+      "COLUMN_DEFAULT": "0"
+    },
+    {
+      "COLUMN_NAME": "created_at",
+      "COLUMN_TYPE": "timestamp",
+      "IS_NULLABLE": "NO",
+      "COLUMN_KEY": "",
+      "COLUMN_DEFAULT": "CURRENT_TIMESTAMP"
+    },
+    {
+      "COLUMN_NAME": "updated_at",
+      "COLUMN_TYPE": "timestamp",
+      "IS_NULLABLE": "NO",
+      "COLUMN_KEY": "",
+      "COLUMN_DEFAULT": "CURRENT_TIMESTAMP"
+    },
+    {
+      "COLUMN_NAME": "client_profile_id",
+      "COLUMN_TYPE": "varchar(255)",
+      "IS_NULLABLE": "YES",
+      "COLUMN_KEY": "MUL",
+      "COLUMN_DEFAULT": "NULL"
+    },
+    {
+      "COLUMN_NAME": "tier",
+      "COLUMN_TYPE": "varchar(50)",
+      "IS_NULLABLE": "NO",
+      "COLUMN_KEY": "",
+      "COLUMN_DEFAULT": "free"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\tCOLUMN_TYPE\tIS_NULLABLE\tCOLUMN_KEY\tCOLUMN_DEFAULT\nid\tvarchar(255)\tNO\tPRI\tNULL\nuser_id\tvarchar(255)\tNO\tUNI\tNULL\nstripe_customer_id\tvarchar(255)\tYES\t\tNULL\nstripe_subscription_id\tvarchar(255)\tYES\t\tNULL\nstatus\tvarchar(50)\tNO\t\tNULL\nprice_id\tvarchar(255)\tYES\t\tNULL\ncurrent_period_end\ttimestamp\tYES\t\tNULL\ncancel_at_period_end\ttinyint(1)\tNO\t\t0\nfounding_member\ttinyint(1)\tNO\t\t0\ncreated_at\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\nupdated_at\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\nclient_profile_id\tvarchar(255)\tYES\tMUL\tNULL\ntier\tvarchar(50)\tNO\t\tfree\n",
+  "stderr": "",
+  "execution_time_ms": 60
+}

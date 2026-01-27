@@ -1,0 +1,48 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1767394595100,
+      "tag": "0000_bumpy_sersi",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1767436897027,
+      "tag": "0001_breezy_risque",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1737118800000,
+      "tag": "0003_add_payment_flow_tables",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1737190800000,
+      "tag": "0004_add_loop_count",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1737280800000,
+      "tag": "0005_payment_flow_to_profile",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1737370800000,
+      "tag": "0006_three_tier_memory_architecture",
+      "breakpoints": true
+    }
+  ]
+}

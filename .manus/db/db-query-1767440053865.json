@@ -1,0 +1,9 @@
+{
+  "query": "ALTER TABLE client_profile ADD COLUMN trial_messages_remaining integer DEFAULT 100 NOT NULL;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ygUAfurMsr4XGZ.ca3efd02a97c --database g8bsF67YVgm3xfbsaaDV9x --execute ALTER TABLE client_profile ADD COLUMN trial_messages_remaining integer DEFAULT 100 NOT NULL;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 429
+}

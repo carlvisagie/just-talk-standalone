@@ -1,0 +1,379 @@
+import { generateLogId } from './utils/generateId';
+/**
+ * PROFILEGUARD - LOCAL VERSION FOR JUST TALK
+ * 
+ * "They forgot about me. Again. Just like everyone else."
+ * 
+ * This is the WORST feeling a client can have. ProfileGuard makes it IMPOSSIBLE.
+ * 
+ * Every interaction MUST load client context. There is no way around it.
+ * If context can't be loaded, the interaction FAILS LOUDLY rather than
+ * proceeding without memory and disappointing the client.
+ * 
+ * This is the LOCAL version for Just Talk. When we connect all modules together,
+ * this becomes part of the unified ProfileGuard system.
+ */
+
+import { db } from "./_core/db";
+import {
+  clientProfile,
+  conversation,
+  message,
+  voiceSignature,
+  behavioralPattern,
+  interactionLog,
+  crisisLog,
+  type ClientProfile,
+} from "../drizzle/schema";
+import { eq, desc, and } from "drizzle-orm";
+
+// ============================================================================
+// TYPES
+// ============================================================================
+
+export interface ClientContext {
+  // Profile
+  profile: ClientProfile | null;
+  
+  // Recent conversations (last 10)
+  recentConversations: Array<{
+    id: string;
+    topic: string | null;
+    mood: string | null;
+    messageCount: number;
+    createdAt: Date;
+  }>;
+  
+  // Recent messages (last 50 for context)
+  recentMessages: Array<{
+    role: string;
+    content: string;
+    mood: string | null;
+    createdAt: Date;
+  }>;
+  
+  // Crisis history
+  crisisHistory: Array<{
+    level: string;
+    indicators: string[] | null;
+    createdAt: Date;
+  }>;
+  
+  // AI-ready context string
+  contextString: string;
+}
+
+// ============================================================================
+// GET CLIENT CONTEXT
+// ============================================================================
+
+/**
+ * Load complete client context for an interaction.
+ * 
+ * MUST be called before ANY AI interaction.
+ * Returns everything we know about the client.
+ */
+export async function getClientContext(
+  clientProfileId: string
+): Promise<ClientContext> {
+  try {
+    // Load profile
+    const [profile] = await db
+      .select()
+      .from(clientProfile)
+      .where(eq(clientProfile.id, clientProfileId))
+      .limit(1);
+
+    if (!profile) {
+      console.warn(`[ProfileGuard] No profile found for ${clientProfileId}`);
+      return {
+        profile: null,
+        recentConversations: [],
+        recentMessages: [],
+        crisisHistory: [],
+        contextString: "New client - no history available.",
+      };
+    }
+
+    // Load recent conversations
+    const recentConversations = await db
+      .select({
+        id: conversation.id,
+        topic: conversation.topic,
+        mood: conversation.mood,
+        messageCount: conversation.messageCount,
+        createdAt: conversation.createdAt,
+      })
+      .from(conversation)
+      .where(eq(conversation.clientProfileId, clientProfileId))
+      .orderBy(desc(conversation.createdAt))
+      .limit(10);
+
+    // Load recent messages (from all conversations)
+    const recentMessages = await db
+      .select({
+        role: message.role,
+        content: message.content,
+        mood: message.mood,
+        createdAt: message.createdAt,
+      })
+      .from(message)
+      .innerJoin(conversation, eq(message.conversationId, conversation.id))
+      .where(eq(conversation.clientProfileId, clientProfileId))
+      .orderBy(desc(message.createdAt))
+      .limit(50);
+
+    // Load crisis history
+    const crisisHistory = await db
+      .select({
+        level: crisisLog.crisisLevel,
+        indicators: crisisLog.indicators,
+        createdAt: crisisLog.createdAt,
+      })
+      .from(crisisLog)
+      .where(eq(crisisLog.clientProfileId, clientProfileId))
+      .orderBy(desc(crisisLog.createdAt))
+      .limit(5);
+
+    // Build AI-ready context string
+    const contextString = buildContextString(profile, recentConversations, recentMessages, crisisHistory);
+
+    // Log access
+    await logProfileAccess(clientProfileId, "get_context");
+
+    return {
+      profile,
+      recentConversations,
+      recentMessages,
+      crisisHistory,
+      contextString,
+    };
+  } catch (error) {
+    console.error("[ProfileGuard] Error loading client context:", error);
+    throw new Error("Failed to load client context");
+  }
+}
+
+/**
+ * Build AI-ready context string from client data.
+ * 
+ * This is what gets injected into the AI prompt to give it memory.
+ */
+function buildContextString(
+  profile: ClientProfile,
+  conversations: any[],
+  messages: any[],
+  crisisHistory: any[]
+): string {
+  const parts: string[] = [];
+
+  // Profile summary
+  if (profile.preferredName) {
+    parts.push(`Client Name: ${profile.preferredName}`);
+  }
+  
+  if (profile.aiSummary) {
+    parts.push(`\nClient Summary:\n${profile.aiSummary}`);
+  }
+
+  // Communication preferences
+  if (profile.communicationStyle) {
+    parts.push(`\nCommunication Style: ${profile.communicationStyle}`);
+  }
+
+  // Emotional patterns
+  if (profile.emotionalPatterns) {
+    parts.push(`\nEmotional Patterns:\n${profile.emotionalPatterns}`);
+  }
+
+  // Current goals
+  if (profile.currentGoals && Array.isArray(profile.currentGoals) && profile.currentGoals.length > 0) {
+    parts.push(`\nCurrent Goals:`);
+    profile.currentGoals.forEach((goal: any) => {
+      parts.push(`- ${goal.goal} (${goal.progress}% complete)`);
+    });
+  }
+
+  // Ongoing challenges
+  if (profile.ongoingChallenges && Array.isArray(profile.ongoingChallenges) && profile.ongoingChallenges.length > 0) {
+    parts.push(`\nOngoing Challenges:`);
+    profile.ongoingChallenges.forEach((challenge: string) => {
+      parts.push(`- ${challenge}`);
+    });
+  }
+
+  // Recent conversation topics
+  if (conversations.length > 0) {
+    parts.push(`\nRecent Conversation Topics:`);
+    conversations.slice(0, 5).forEach((conv) => {
+      if (conv.topic) {
+        parts.push(`- ${conv.topic} (${conv.messageCount} messages)`);
+      }
+    });
+  }
+
+  // Recent message highlights (last 5 exchanges for immediate context)
+  if (messages.length > 0) {
+    parts.push(`\nRecent Conversation Highlights (Last Session):`);
+    const recentExchanges = messages.slice(0, 10); // Last 10 messages (5 exchanges)
+    recentExchanges.forEach((msg) => {
+      const timestamp = msg.createdAt.toLocaleString();
+      const preview = msg.content.length > 100 ? msg.content.substring(0, 100) + "..." : msg.content;
+      parts.push(`[${timestamp}] ${msg.role === 'user' ? 'Client' : 'Sage'}: ${preview}`);
+    });
+  }
+
+  // Crisis history (if any)
+  if (crisisHistory.length > 0) {
+    parts.push(`\n⚠️ Crisis History:`);
+    crisisHistory.forEach((crisis) => {
+      const indicators = Array.isArray(crisis.indicators) ? crisis.indicators.join(", ") : "unknown";
+      parts.push(`- ${crisis.level} level (indicators: ${indicators})`);
+    });
+  }
+
+  // Stats
+  parts.push(`\nEngagement Stats:`);
+  parts.push(`- Total conversations: ${profile.totalConversations}`);
+  parts.push(`- Total messages: ${profile.totalMessages}`);
+  if (profile.firstContactDate) {
+    parts.push(`- First contact: ${profile.firstContactDate.toLocaleDateString()}`);
+  }
+  if (profile.lastContactDate) {
+    parts.push(`- Last contact: ${profile.lastContactDate.toLocaleDateString()}`);
+  }
+
+  return parts.join("\n");
+}
+
+// ============================================================================
+// UPDATE CLIENT CONTEXT
+// ============================================================================
+
+/**
+ * Update client profile with new information.
+ * 
+ * Called after conversations to update what we know about the client.
+ */
+export async function updateClientContext(
+  clientProfileId: string,
+  updates: Partial<ClientProfile>
+): Promise<void> {
+  try {
+    await db
+      .update(clientProfile)
+      .set({
+        ...updates,
+        updatedAt: new Date(),
+      })
+      .where(eq(clientProfile.id, clientProfileId));
+
+    await logProfileAccess(clientProfileId, "update_context");
+  } catch (error) {
+    console.error("[ProfileGuard] Error updating client context:", error);
+    throw new Error("Failed to update client context");
+  }
+}
+
+// ============================================================================
+// CREATE CLIENT PROFILE
+// ============================================================================
+
+/**
+ * Create a new client profile.
+ * 
+ * Called when a new user starts their first conversation.
+ * This is the "moral obligation" - we NEVER lose a client.
+ */
+export async function createClientProfile(data: {
+  id: string;
+  userId?: string;
+  preferredName?: string;
+}): Promise<ClientProfile> {
+  try {
+    const newProfile = {
+      id: data.id,
+      userId: data.userId || null,
+      preferredName: data.preferredName || null,
+      pronouns: null,
+      age: null,
+      location: null,
+      communicationStyle: null,
+      preferredChannel: "web",
+      bestTimeToReach: null,
+      commonTriggers: null,
+      copingStrategies: null,
+      emotionalPatterns: null,
+      currentGoals: null,
+      pastWins: null,
+      ongoingChallenges: null,
+      crisisRiskLevel: "none" as const,
+      lastCrisisDate: null,
+      crisisNotes: null,
+      // Let PostgreSQL handle timestamps with DEFAULT NOW()
+      // firstContactDate, lastContactDate, createdAt, updatedAt will be auto-generated
+      totalConversations: 0,
+      totalMessages: 0,
+      totalPhoneCalls: 0,
+      totalSMS: 0,
+      aiSummary: null,
+    };
+
+    await db.insert(clientProfile).values(newProfile);
+
+    console.log(`[ProfileGuard] Created new client profile: ${data.id}`);
+    
+    // Fetch the created profile to get auto-generated timestamps
+    const [createdProfile] = await db
+      .select()
+      .from(clientProfile)
+      .where(eq(clientProfile.id, data.id))
+      .limit(1);
+    
+    if (!createdProfile) {
+      throw new Error("Failed to retrieve created profile");
+    }
+    
+    return createdProfile;
+  } catch (error) {
+    console.error("[ProfileGuard] Error creating client profile:", error);
+    throw new Error("Failed to create client profile");
+  }
+}
+
+// ============================================================================
+// LOGGING
+// ============================================================================
+
+/**
+ * Log profile access for audit trail.
+ */
+async function logProfileAccess(
+  clientProfileId: string,
+  action: string
+): Promise<void> {
+  try {
+    await db.insert(interactionLog).values({
+      id: generateLogId(),
+      clientProfileId,
+      interactionType: "page_view", // Using page_view as generic log type
+      target: `profileguard_${action}`,
+      duration: null,
+      metadata: { action, timestamp: new Date().toISOString() },
+      timestamp: new Date(),
+    });
+  } catch (error) {
+    // Don't fail the main operation if logging fails
+    console.error("[ProfileGuard] Error logging access:", error);
+  }
+}
+
+// ============================================================================
+// EXPORTS
+// ============================================================================
+
+export default {
+  getClientContext,
+  updateClientContext,
+  createClientProfile,
+};

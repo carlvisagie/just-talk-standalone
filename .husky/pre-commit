@@ -1,0 +1,60 @@
+#!/bin/sh
+# =============================================================================
+# CONTINUITY GUARD - Pre-commit Hook
+# =============================================================================
+# This hook prevents direct clientProfile database operations outside of
+# unifiedClientRepository.ts. This is CRITICAL for maintaining perfect
+# continuity in the Just Talk system.
+#
+# If this hook blocks your commit, you MUST:
+# 1. Use functions from unifiedClientRepository.ts instead of direct DB access
+# 2. If you need a new operation, add it to unifiedClientRepository.ts first
+# 3. Read CONTINUITY_GUARD.md before making any changes
+# =============================================================================
+
+echo "🔒 CONTINUITY GUARD: Checking for direct clientProfile operations..."
+
+# Get list of staged TypeScript files (excluding unifiedClientRepository and deprecated)
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '\.ts$' | grep -v 'unifiedClientRepository.ts' | grep -v 'deprecated/')
+
+if [ -z "$STAGED_FILES" ]; then
+    echo "✅ No TypeScript files to check"
+    exit 0
+fi
+
+# Check for forbidden patterns
+VIOLATIONS=""
+
+for FILE in $STAGED_FILES; do
+    # Check for direct clientProfile write operations
+    if grep -n "\.insert(clientProfile)" "$FILE" 2>/dev/null; then
+        VIOLATIONS="$VIOLATIONS\n❌ VIOLATION in $FILE: Direct db.insert(clientProfile) found"
+    fi
+    if grep -n "\.update(clientProfile)" "$FILE" 2>/dev/null; then
+        VIOLATIONS="$VIOLATIONS\n❌ VIOLATION in $FILE: Direct db.update(clientProfile) found"
+    fi
+    if grep -n "\.delete(clientProfile)" "$FILE" 2>/dev/null; then
+        VIOLATIONS="$VIOLATIONS\n❌ VIOLATION in $FILE: Direct db.delete(clientProfile) found"
+    fi
+done
+
+if [ -n "$VIOLATIONS" ]; then
+    echo ""
+    echo "🚨 CONTINUITY GUARD BLOCKED THIS COMMIT 🚨"
+    echo "============================================"
+    echo -e "$VIOLATIONS"
+    echo ""
+    echo "ALL clientProfile operations MUST go through unifiedClientRepository.ts"
+    echo ""
+    echo "Available functions:"
+    echo "  - findOrCreateClient()     → Get or create a client"
+    echo "  - updateClientProfile()    → Update any profile field"
+    echo "  - getUnifiedClientContext() → Get full client context"
+    echo ""
+    echo "Read CONTINUITY_GUARD.md for more information."
+    echo "============================================"
+    exit 1
+fi
+
+echo "✅ CONTINUITY GUARD: All checks passed"
+exit 0

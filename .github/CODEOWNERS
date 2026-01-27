@@ -1,0 +1,37 @@
+# CODEOWNERS - Protect critical production files
+# These files require owner review before merging
+
+# Critical system documentation
+CRITICAL_SYSTEM.md @carlvisagie
+PRODUCTION_PROTECTION.md @carlvisagie
+ROLLBACK_PROCEDURES.md @carlvisagie
+CLIENT_PROFILE_ARCHITECTURE.md @carlvisagie
+
+# UNIFIED CLIENT REPOSITORY - THE SINGLE SOURCE OF TRUTH
+# This is THE most critical file - ALL client data operations MUST go through here
+server/unifiedClientRepository.ts @carlvisagie
+
+# Core voice system - CRITICAL
+server/conversationRelay.ts @carlvisagie
+server/smartContextBuilder.ts @carlvisagie
+server/postInteractionUpdater.ts @carlvisagie
+server/phonePayment.ts @carlvisagie
+
+# Safety and compliance - CRITICAL
+server/crisisDetection.ts @carlvisagie
+server/guardrails.ts @carlvisagie
+
+# Payment processing - CRITICAL
+server/webhooks/stripeWebhook.ts @carlvisagie
+server/stripeRouter.ts @carlvisagie
+
+# Database schema - CRITICAL
+drizzle/schema.ts @carlvisagie
+drizzle/*.ts @carlvisagie
+
+# Core infrastructure - CRITICAL
+server/_core/*.ts @carlvisagie
+
+# Environment and configuration - CRITICAL
+.env* @carlvisagie
+render.yaml @carlvisagie
