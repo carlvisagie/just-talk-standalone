@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { createPortal } from "react-dom";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
@@ -44,6 +44,23 @@ export default function EmbeddedChat({
   const [hasStarted, setHasStarted] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  // Generate a stable browser fingerprint for anonymous user tracking
+  const browserFingerprint = useMemo(() => {
+    // Check if we already have a fingerprint stored
+    const stored = localStorage.getItem('just-talk-fingerprint');
+    if (stored) return stored;
+    
+    // Generate a new fingerprint based on browser characteristics
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    ctx?.fillText('fingerprint', 10, 10);
+    const canvasData = canvas.toDataURL();
+    
+    const fingerprint = `fp_${Date.now()}_${Math.random().toString(36).slice(2)}_${navigator.userAgent.length}_${screen.width}x${screen.height}_${canvasData.slice(-20)}`;
+    localStorage.setItem('just-talk-fingerprint', fingerprint);
+    return fingerprint;
+  }, []);
 
   // Load messages and name from localStorage on mount
   useEffect(() => {
@@ -166,6 +183,7 @@ export default function EmbeddedChat({
       message,
       clientId,
       mood: selectedMood,
+      browserFingerprint,
     });
   };
 
