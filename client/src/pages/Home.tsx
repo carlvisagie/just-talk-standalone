@@ -7,6 +7,9 @@ import { useToast } from "@/hooks/use-toast";
 import EmbeddedChat from "@/components/EmbeddedChat";
 import MeetSage from "@/components/MeetSage";
 import Testimonials from "@/components/Testimonials";
+import CountdownTimer from "@/components/CountdownTimer";
+import SocialProofBanner from "@/components/SocialProofBanner";
+import TrustBadges from "@/components/TrustBadges";
 
 export default function Home() {
   const { toast } = useToast();
@@ -112,7 +115,7 @@ export default function Home() {
                 className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white px-5 py-3 rounded-xl text-base font-bold shadow-lg hover:shadow-cyan-500/50 transition-all transform hover:scale-105"
               >
                 <CreditCard className="w-4 h-4" />
-                <span>Subscribe $29/mo</span>
+                <span>50% Off — $14.50/mo</span>
               </button>
             </div>
           </div>
@@ -138,6 +141,9 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {/* SOCIAL PROOF BANNER - Wisdom of Crowds */}
+      <SocialProofBanner />
 
       {/* SECTION 2: THE PAIN - YOU KNOW THIS FEELING */}
       <div className="container mx-auto px-4 py-20 relative z-10">
@@ -273,26 +279,35 @@ export default function Home() {
       {/* SECTION 6: THE OFFER - TIERS */}
       <div className="container mx-auto px-4 py-20 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-2xl">
-            Choose Your Level
-            <br />
-            <span className="text-pink-300">of Support</span>
+          {/* Countdown Timer - Creates Urgency */}
+          <CountdownTimer className="mb-8" />
+          
+          <h2 className="text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-2xl">
+            Stop Suffering Alone
           </h2>
+          <p className="text-xl text-purple-200 mb-4 max-w-2xl mx-auto">
+            For less than the cost of one therapy session, get <strong className="text-white">unlimited support</strong> whenever you need it.
+          </p>
+          
+          {/* Trust Badges */}
+          <div className="mb-8">
+            <TrustBadges />
+          </div>
           
           <div className="grid md:grid-cols-3 gap-6 mt-12">
             {/* FREE TIER */}
             <Card className="border-none shadow-2xl bg-white/10 backdrop-blur-md border border-white/20">
               <CardContent className="pt-8 pb-8 px-6">
-                <div className="text-green-400 font-bold text-sm mb-2">FREE</div>
-                <h3 className="text-2xl font-bold text-white mb-2">Try It Out</h3>
-                <p className="text-purple-200 mb-6 text-sm">Limited daily messages</p>
+                <div className="text-green-400 font-bold text-sm mb-2">FREE FOREVER</div>
+                <h3 className="text-2xl font-bold text-white mb-2">Start Here</h3>
+                <p className="text-purple-200 mb-6 text-sm">See if Sage gets you</p>
                 
                 <div className="space-y-3 text-left mb-8">
                   <div className="flex items-start gap-3">
                     <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-green-400 text-xs">✓</span>
                     </div>
-                    <span className="text-purple-100 text-sm">5 messages per day</span>
+                    <span className="text-purple-100 text-sm">3 messages per day to start</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -320,9 +335,9 @@ export default function Home() {
             {/* CHAT TIER - $12 */}
             <Card className="border-none shadow-2xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 backdrop-blur-md border-2 border-cyan-400/30">
               <CardContent className="pt-8 pb-8 px-6">
-                <div className="text-cyan-300 font-bold text-sm mb-2">$12/MONTH</div>
-                <h3 className="text-2xl font-bold text-white mb-2">Unlimited Chat</h3>
-                <p className="text-purple-200 mb-6 text-sm">Text anytime, no limits</p>
+                <div className="text-cyan-300 font-bold text-sm mb-2"><span className="line-through text-purple-400">$12</span> $6/MONTH</div>
+                <h3 className="text-2xl font-bold text-white mb-2">Your Safe Space</h3>
+                <p className="text-purple-200 mb-6 text-sm">Talk whenever you need—no limits</p>
                 
                 <div className="space-y-3 text-left mb-8">
                   <div className="flex items-start gap-3">
@@ -341,7 +356,7 @@ export default function Home() {
                     <div className="w-5 h-5 rounded-full bg-cyan-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-cyan-400 text-xs">✓</span>
                     </div>
-                    <span className="text-purple-100 text-sm">Sage remembers you</span>
+                    <span className="text-purple-100 text-sm"><strong className="text-white">Sage remembers your story</strong></span>
                   </div>
                   <div className="flex items-start gap-3">
                     <div className="w-5 h-5 rounded-full bg-cyan-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -356,8 +371,9 @@ export default function Home() {
                   className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-bold py-3"
                 >
                   <MessageCircle className="w-4 h-4 mr-2" />
-                  Subscribe $12/mo
+                  Get 50% Off — $6/mo
                 </Button>
+                <p className="text-center text-green-400 text-xs mt-2 font-medium">Cancel anytime. No questions asked.</p>
               </CardContent>
             </Card>
             
@@ -367,9 +383,9 @@ export default function Home() {
                 MOST POPULAR
               </div>
               <CardContent className="pt-8 pb-8 px-8">
-                <div className="text-pink-300 font-bold text-sm mb-2">$29/MONTH</div>
-                <h3 className="text-3xl font-bold text-white mb-2">Phone</h3>
-                <p className="text-purple-200 mb-6">Voice support for deeper connection</p>
+                <div className="text-pink-300 font-bold text-sm mb-2"><span className="line-through text-purple-400">$29</span> $14.50/MONTH</div>
+                <h3 className="text-3xl font-bold text-white mb-2">Call Anytime</h3>
+                <p className="text-purple-200 mb-6">When typing isn't enough</p>
                 
                 <div className="space-y-3 text-left mb-8">
                   <div className="flex items-start gap-3">
@@ -409,8 +425,9 @@ export default function Home() {
                   className="w-full bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-bold py-3"
                 >
                   <Phone className="w-4 h-4 mr-2" />
-                  Subscribe Now
+                  Get 50% Off — $14.50/mo
                 </Button>
+                <p className="text-center text-green-400 text-xs mt-2 font-medium">Cancel anytime. No questions asked.</p>
               </CardContent>
             </Card>
           </div>
@@ -462,6 +479,35 @@ export default function Home() {
         </div>
       </div>
 
+      {/* TRUST & SECURITY SECTION */}
+      <div className="container mx-auto px-4 py-12 relative z-10 border-t border-white/10">
+        <div className="max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 text-center mb-12">
+            <div>
+              <div className="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                <Shield className="w-6 h-6 text-green-400" />
+              </div>
+              <h4 className="text-white font-bold mb-2">Bank-Level Encryption</h4>
+              <p className="text-purple-300 text-sm">Your conversations are protected with 256-bit SSL encryption. We can't read them. No one can.</p>
+            </div>
+            <div>
+              <div className="w-12 h-12 bg-cyan-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                <Heart className="w-6 h-6 text-cyan-400" />
+              </div>
+              <h4 className="text-white font-bold mb-2">Built With Care</h4>
+              <p className="text-purple-300 text-sm">Created by people who've been through hard times and wished they had someone to talk to.</p>
+            </div>
+            <div>
+              <div className="w-12 h-12 bg-pink-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                <Clock className="w-6 h-6 text-pink-400" />
+              </div>
+              <h4 className="text-white font-bold mb-2">Always Available</h4>
+              <p className="text-purple-300 text-sm">24/7/365. Holidays, weekends, 3 AM. Sage never sleeps, never judges, never leaves.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* FOOTER */}
       <footer className="container mx-auto px-4 py-12 relative z-0 border-t border-white/10">
         <div className="max-w-4xl mx-auto">
@@ -482,6 +528,9 @@ export default function Home() {
               </Link>
               <Link href="/privacy" className="text-purple-300 hover:text-white transition-colors">
                 Privacy
+              </Link>
+              <Link href="/about" className="text-purple-300 hover:text-white transition-colors">
+                About Us
               </Link>
             </div>
           </div>

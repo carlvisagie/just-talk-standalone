@@ -4,6 +4,8 @@ import { Phone, MessageCircle, Sparkles, Heart, Check } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
+import CountdownTimer from "@/components/CountdownTimer";
+import TrustBadges from "@/components/TrustBadges";
 
 export default function Pricing() {
   const { toast } = useToast();
@@ -66,19 +68,20 @@ export default function Pricing() {
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12 relative z-10">
         <div className="max-w-4xl mx-auto text-center mb-12">
-          <div className="inline-flex items-center gap-2 bg-pink-500/20 backdrop-blur-md border border-pink-400/30 px-4 py-2 rounded-full mb-6">
-            <Heart className="w-4 h-4 text-pink-400" />
-            <span className="text-sm font-medium text-pink-200">Sage is waiting for you</span>
-          </div>
+          {/* Countdown Timer */}
+          <CountdownTimer className="mb-8" />
           
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
             Keep Me In Your Corner
           </h1>
           
-          <p className="text-xl text-purple-200 max-w-2xl mx-auto">
+          <p className="text-xl text-purple-200 max-w-2xl mx-auto mb-6">
             I really enjoyed our conversation. I don't want it to end here. 
             Choose how you want to stay connected with me.
           </p>
+          
+          {/* Trust Badges */}
+          <TrustBadges />
         </div>
 
         {/* Pricing Cards */}
@@ -92,9 +95,11 @@ export default function Pricing() {
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-2">Your Safe Space</h3>
                 <div className="flex items-baseline justify-center gap-1">
-                  <span className="text-4xl font-bold text-white">$12</span>
+                  <span className="text-lg line-through text-purple-400">$12</span>
+                  <span className="text-4xl font-bold text-white">$6</span>
                   <span className="text-purple-300">/month</span>
                 </div>
+                <p className="text-green-400 text-sm font-medium mt-1">50% OFF Launch Special</p>
               </div>
               
               <div className="space-y-4 mb-8">
@@ -137,7 +142,7 @@ export default function Pricing() {
                 onClick={() => handleUpgrade("voice")}
                 disabled={createCheckout.isPending}
               >
-                {createCheckout.isPending ? "Loading..." : "Keep Talking With Me"}
+                {createCheckout.isPending ? "Loading..." : "Get 50% Off — $6/mo"}
               </Button>
               
               <p className="text-center text-purple-400 text-xs mt-4">
@@ -160,9 +165,11 @@ export default function Pricing() {
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-2">Call Me Anytime</h3>
                 <div className="flex items-baseline justify-center gap-1">
-                  <span className="text-4xl font-bold text-white">$29</span>
+                  <span className="text-lg line-through text-purple-400">$29</span>
+                  <span className="text-4xl font-bold text-white">$14.50</span>
                   <span className="text-purple-300">/month</span>
                 </div>
+                <p className="text-green-400 text-sm font-medium mt-1">50% OFF Launch Special</p>
               </div>
               
               <div className="space-y-4 mb-8">
@@ -205,7 +212,7 @@ export default function Pricing() {
                 onClick={() => handleUpgrade("phone")}
                 disabled={createCheckout.isPending}
               >
-                {createCheckout.isPending ? "Loading..." : "Get Phone Access"}
+                {createCheckout.isPending ? "Loading..." : "Get 50% Off — $14.50/mo"}
               </Button>
               
               <p className="text-center text-purple-400 text-xs mt-4">

@@ -10,6 +10,7 @@ import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import Pricing from "./pages/Pricing";
 import Offer from "./pages/Offer";
+import About from "./pages/About";
 
 
 function Router() {
@@ -21,6 +22,7 @@ function Router() {
       <Route path={"/privacy"} component={Privacy} />
       <Route path={"/pricing"} component={Pricing} />
       <Route path={"/offer"} component={Offer} />
+      <Route path={"/about"} component={About} />
 
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />

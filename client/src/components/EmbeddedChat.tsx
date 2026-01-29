@@ -25,11 +25,14 @@ type EmbeddedChatProps = {
   defaultExpanded?: boolean;
   /** Callback when user sends first message (for analytics) */
   onFirstMessage?: () => void;
+  /** Maximum height of the chat container */
+  maxHeight?: string;
 };
 
 export default function EmbeddedChat({ 
   defaultExpanded = false,
-  onFirstMessage 
+  onFirstMessage,
+  maxHeight = "400px"
 }: EmbeddedChatProps) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
   const [message, setMessage] = useState("");
