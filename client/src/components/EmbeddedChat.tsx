@@ -138,6 +138,14 @@ export default function EmbeddedChat({
       setMessage("");
       setSelectedMood(undefined);
     },
+    onError: (error) => {
+      console.error('[EmbeddedChat] API Error:', error);
+      setMessages(prev => [...prev, {
+        role: "assistant",
+        content: "I'm having trouble connecting right now. Please try again in a moment.",
+        timestamp: Date.now()
+      }]);
+    },
   });
 
   // Auto-scroll to bottom

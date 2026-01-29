@@ -1,0 +1,26 @@
+[33mcommit e0b993a0974284c566a3b3ae61542dafa906cf18[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: carlvisagie <88521087+carlvisagie@users.noreply.github.com>
+Date:   Wed Jan 28 21:55:45 2026 -0500
+
+    🔬 Research-backed: Implement 1 message/day free tier (a16z freemium optimization)
+    
+    Based on a16z research on freemium optimization:
+    - Changed from 100 total messages to 1 message per day with daily reset
+    - Creates the 'sting' that drives conversion after users experience the 'a-ha' moment
+    - Daily reset ensures users feel the limitation every day, driving urgency
+    
+    Changes:
+    - Added dailyMessagesUsed, dailyMessageResetDate, dailyMessageLimit to schema
+    - Updated unifiedClientRepository with daily reset logic
+    - Updated Stripe webhook for paid tier unlimited messages
+    - Updated Chat.tsx banner with emotional daily limit messaging
+    - Updated Home.tsx pricing card copy
+    
+    Research source: a16z.com/how-to-optimize-your-free-tier-freemium
+
+ client/src/pages/Chat.tsx         | 10 [32m++++[m[31m----[m
+ client/src/pages/Home.tsx         |  2 [32m+[m[31m-[m
+ drizzle/schema.ts                 |  7 [32m+++[m[31m--[m
+ server/unifiedClientRepository.ts | 54 [32m++++++++++++++++++++++++++++++++[m[31m-------[m
+ server/webhooks/stripeWebhook.ts  |  4 [32m++[m[31m-[m
+ 5 files changed, 59 insertions(+), 18 deletions(-)
