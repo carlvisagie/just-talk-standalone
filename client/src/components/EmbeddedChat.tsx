@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -215,8 +216,8 @@ export default function EmbeddedChat({
         {CTAButton}
       </div>
 
-      {/* Modal Overlay - Fixed z-index and iOS Safari compatibility */}
-      {isExpanded && (
+      {/* Modal Overlay - Rendered via Portal for proper z-index stacking */}
+      {isExpanded && createPortal(
         <div 
           className="fixed inset-0 flex items-center justify-center"
           style={{ 
@@ -370,7 +371,8 @@ export default function EmbeddedChat({
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );
