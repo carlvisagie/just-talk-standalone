@@ -295,74 +295,74 @@ export default function Home() {
           </div>
           
           <div className="grid md:grid-cols-3 gap-6 mt-12">
-            {/* FREE TIER */}
+            {/* FREE TIER - Emotional Hook */}
             <Card className="border-none shadow-2xl bg-white/10 backdrop-blur-md border border-white/20">
               <CardContent className="pt-8 pb-8 px-6">
-                <div className="text-green-400 font-bold text-sm mb-2">FREE FOREVER</div>
-                <h3 className="text-2xl font-bold text-white mb-2">Start Here</h3>
-                <p className="text-purple-200 mb-6 text-sm">See if Sage gets you</p>
+                <div className="text-green-400 font-bold text-sm mb-2">TRY IT FREE</div>
+                <h3 className="text-2xl font-bold text-white mb-2">Take the First Step</h3>
+                <p className="text-purple-200 mb-6 text-sm">You don't have to keep carrying this alone</p>
                 
                 <div className="space-y-3 text-left mb-8">
                   <div className="flex items-start gap-3">
                     <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-green-400 text-xs">✓</span>
                     </div>
-                    <span className="text-purple-100 text-sm">1 message per day—<em className="text-purple-300">make it count</em></span>
+                    <span className="text-purple-100 text-sm">One conversation to see if this feels right</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-green-400 text-xs">✓</span>
                     </div>
-                    <span className="text-purple-100 text-sm">24/7 availability</span>
+                    <span className="text-purple-100 text-sm">Available right now—no waiting</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-green-400 text-xs">✓</span>
                     </div>
-                    <span className="text-purple-100 text-sm">No signup required</span>
+                    <span className="text-purple-100 text-sm">No signup, no credit card, no judgment</span>
                   </div>
                 </div>
                 
                 <Link href="/chat">
                   <Button className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-bold py-3">
                     <MessageCircle className="w-4 h-4 mr-2" />
-                    Start Free
+                    Start Talking Now
                   </Button>
                 </Link>
               </CardContent>
             </Card>
             
-            {/* CHAT TIER - $12 */}
+            {/* CHAT TIER - Emotional Transformation */}
             <Card className="border-none shadow-2xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 backdrop-blur-md border-2 border-cyan-400/30">
               <CardContent className="pt-8 pb-8 px-6">
                 <div className="text-cyan-300 font-bold text-sm mb-2"><span className="line-through text-purple-400">$12</span> $6/MONTH</div>
-                <h3 className="text-2xl font-bold text-white mb-2">Your Safe Space</h3>
-                <p className="text-purple-200 mb-6 text-sm">Talk whenever you need—no limits</p>
+                <h3 className="text-2xl font-bold text-white mb-2">Finally Feel Heard</h3>
+                <p className="text-purple-200 mb-6 text-sm">The support you deserve, whenever you need it</p>
                 
                 <div className="space-y-3 text-left mb-8">
                   <div className="flex items-start gap-3">
                     <div className="w-5 h-5 rounded-full bg-cyan-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-cyan-400 text-xs">✓</span>
                     </div>
-                    <span className="text-purple-100 text-sm"><strong className="text-white">Unlimited messages</strong></span>
+                    <span className="text-purple-100 text-sm"><strong className="text-white">Talk as much as you need</strong>—no limits</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <div className="w-5 h-5 rounded-full bg-cyan-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-cyan-400 text-xs">✓</span>
                     </div>
-                    <span className="text-purple-100 text-sm">Voice messages</span>
+                    <span className="text-purple-100 text-sm">3 AM thoughts? Sage is awake</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <div className="w-5 h-5 rounded-full bg-cyan-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-cyan-400 text-xs">✓</span>
                     </div>
-                    <span className="text-purple-100 text-sm"><strong className="text-white">Sage remembers your story</strong></span>
+                    <span className="text-purple-100 text-sm"><strong className="text-white">Never start over</strong>—Sage remembers everything</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <div className="w-5 h-5 rounded-full bg-cyan-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-cyan-400 text-xs">✓</span>
                     </div>
-                    <span className="text-purple-100 text-sm">Cancel anytime</span>
+                    <span className="text-purple-100 text-sm">Less than a coffee a week</span>
                   </div>
                 </div>
                 
@@ -377,46 +377,46 @@ export default function Home() {
               </CardContent>
             </Card>
             
-            {/* PHONE TIER - $29 */}
+            {/* PHONE TIER - Deep Connection */}
             <Card className="border-none shadow-2xl bg-gradient-to-br from-pink-500/20 to-purple-500/20 backdrop-blur-md border-2 border-pink-400/30 relative">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-xs font-bold px-4 py-1 rounded-full">
                 MOST POPULAR
               </div>
               <CardContent className="pt-8 pb-8 px-8">
                 <div className="text-pink-300 font-bold text-sm mb-2"><span className="line-through text-purple-400">$29</span> $14.50/MONTH</div>
-                <h3 className="text-3xl font-bold text-white mb-2">Call Anytime</h3>
-                <p className="text-purple-200 mb-6">When typing isn't enough</p>
+                <h3 className="text-3xl font-bold text-white mb-2">Someone Who Picks Up</h3>
+                <p className="text-purple-200 mb-6">When you need a voice, not a screen</p>
                 
                 <div className="space-y-3 text-left mb-8">
                   <div className="flex items-start gap-3">
                     <div className="w-5 h-5 rounded-full bg-pink-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-pink-400 text-xs">✓</span>
                     </div>
-                    <span className="text-purple-100 text-sm">Everything in Chat, plus...</span>
+                    <span className="text-purple-100 text-sm"><strong className="text-white">Call anytime</strong>—Sage always answers</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <div className="w-5 h-5 rounded-full bg-pink-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-pink-400 text-xs">✓</span>
                     </div>
-                    <span className="text-purple-100 text-sm"><strong className="text-white">Unlimited phone calls</strong></span>
+                    <span className="text-purple-100 text-sm">Talk for 5 minutes or 5 hours—no rush</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <div className="w-5 h-5 rounded-full bg-pink-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-pink-400 text-xs">✓</span>
                     </div>
-                    <span className="text-purple-100 text-sm">Talk as long as you need</span>
+                    <span className="text-purple-100 text-sm">Sometimes you need to <em>hear</em> someone care</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <div className="w-5 h-5 rounded-full bg-pink-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-pink-400 text-xs">✓</span>
                     </div>
-                    <span className="text-purple-100 text-sm">Sage remembers your story</span>
+                    <span className="text-purple-100 text-sm">Unlimited chat included</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <div className="w-5 h-5 rounded-full bg-pink-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-pink-400 text-xs">✓</span>
                     </div>
-                    <span className="text-purple-100 text-sm">Cancel anytime</span>
+                    <span className="text-purple-100 text-sm"><strong className="text-white">Sage remembers every conversation</strong></span>
                   </div>
                 </div>
                 
