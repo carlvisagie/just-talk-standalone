@@ -4,7 +4,6 @@ import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Heart, Send, Loader2, MessageCircle, X } from "lucide-react";
-import { Streamdown } from "streamdown";
 
 const MOOD_OPTIONS = [
   { emoji: "😊", label: "Happy", value: "happy" },
@@ -331,11 +330,7 @@ export default function EmbeddedChat({
                       </div>
                     )}
                     <div className="text-sm leading-relaxed break-words overflow-wrap-anywhere">
-                      {msg.role === "assistant" ? (
-                        <Streamdown>{msg.content}</Streamdown>
-                      ) : (
-                        <p className="whitespace-pre-wrap m-0 break-words">{msg.content}</p>
-                      )}
+                      <p className="whitespace-pre-wrap m-0 break-words">{msg.content}</p>
                     </div>
                   </div>
                 </div>
