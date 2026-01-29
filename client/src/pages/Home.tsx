@@ -115,7 +115,7 @@ export default function Home() {
                 className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white px-5 py-3 rounded-xl text-base font-bold shadow-lg hover:shadow-cyan-500/50 transition-all transform hover:scale-105"
               >
                 <CreditCard className="w-4 h-4" />
-                <span>50% Off — $14.50/mo</span>
+                <span>50% Off — $14.99/mo</span>
               </button>
             </div>
           </div>
@@ -335,7 +335,7 @@ export default function Home() {
             {/* CHAT TIER - Emotional Transformation */}
             <Card className="border-none shadow-2xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 backdrop-blur-md border-2 border-cyan-400/30">
               <CardContent className="pt-8 pb-8 px-6">
-                <div className="text-cyan-300 font-bold text-sm mb-2"><span className="line-through text-purple-400">$12</span> $6/MONTH</div>
+                <div className="text-cyan-300 font-bold text-sm mb-2"><span className="line-through text-purple-400">$11.99</span> $5.99/MONTH</div>
                 <h3 className="text-2xl font-bold text-white mb-2">Finally Feel Heard</h3>
                 <p className="text-purple-200 mb-6 text-sm">The support you deserve, whenever you need it</p>
                 
@@ -371,7 +371,7 @@ export default function Home() {
                   className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-bold py-3"
                 >
                   <MessageCircle className="w-4 h-4 mr-2" />
-                  Get 50% Off — $6/mo
+                  Get 50% Off — $5.99/mo
                 </Button>
                 <p className="text-center text-green-400 text-xs mt-2 font-medium">Cancel anytime. No questions asked.</p>
               </CardContent>
@@ -383,7 +383,7 @@ export default function Home() {
                 MOST POPULAR
               </div>
               <CardContent className="pt-8 pb-8 px-8">
-                <div className="text-pink-300 font-bold text-sm mb-2"><span className="line-through text-purple-400">$29</span> $14.50/MONTH</div>
+                <div className="text-pink-300 font-bold text-sm mb-2"><span className="line-through text-purple-400">$29.99</span> $14.99/MONTH</div>
                 <h3 className="text-3xl font-bold text-white mb-2">Someone Who Picks Up</h3>
                 <p className="text-purple-200 mb-6">When you need a voice, not a screen</p>
                 
@@ -425,7 +425,7 @@ export default function Home() {
                   className="w-full bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-bold py-3"
                 >
                   <Phone className="w-4 h-4 mr-2" />
-                  Get 50% Off — $14.50/mo
+                  Get 50% Off — $14.99/mo
                 </Button>
                 <p className="text-center text-green-400 text-xs mt-2 font-medium">Cancel anytime. No questions asked.</p>
               </CardContent>
