@@ -175,8 +175,11 @@ export const clientProfile = pgTable("client_profile", {
   subscriptionStatus: varchar("subscription_status", { length: 50 }).default("active"),
   stripeCustomerId: varchar("stripe_customer_id", { length: 255 }),
   
-  // Trial System
-  trialMessagesRemaining: integer("trial_messages_remaining").notNull().default(100),
+  // Trial System - Daily Reset (1 message per day for free users)
+  dailyMessagesUsed: integer("daily_messages_used").notNull().default(0),
+  dailyMessageResetDate: timestamp("daily_message_reset_date").notNull().defaultNow(),
+  dailyMessageLimit: integer("daily_message_limit").notNull().default(1), // 1 for free, unlimited (999999) for paid
+  trialMessagesRemaining: integer("trial_messages_remaining").notNull().default(100), // Legacy, kept for migration
   trialStartDate: timestamp("trial_start_date").notNull().defaultNow(),
   trialEndDate: timestamp("trial_end_date"),
   

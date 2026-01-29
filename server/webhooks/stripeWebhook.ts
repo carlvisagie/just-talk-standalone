@@ -209,7 +209,9 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
       preferredName: profile.preferredName || (customerEmail ? customerEmail.split("@")[0] : undefined),
       phoneNumber: phoneForProfile,
       subscriptionTier: tier,
-      trialMessagesRemaining: tier === "free" ? 100 : 999999,
+      dailyMessageLimit: tier === "free" ? 1 : 999999,
+      dailyMessagesUsed: 0,
+      trialMessagesRemaining: tier === "free" ? 100 : 999999, // Legacy field
       aiSummary: customerEmail 
         ? `Email: ${customerEmail}${phoneForProfile ? `, Phone: ${phoneForProfile}` : ""}. Subscribed to ${tier} tier.`
         : `Phone: ${phoneForProfile}. Subscribed to ${tier} tier via phone call.`,

@@ -415,11 +415,31 @@ export async function getUnifiedClientContext(
     .orderBy(desc(crisisLog.createdAt))
     .limit(5);
 
-  // Build subscription status
+  // Build subscription status with daily reset logic
+  const now = new Date();
+  const resetDate = profile.dailyMessageResetDate ? new Date(profile.dailyMessageResetDate) : new Date(0);
+  const isNewDay = now.toDateString() !== resetDate.toDateString();
+  
+  // Calculate messages remaining for today
+  let dailyMessagesRemaining: number;
+  if (profile.subscriptionTier !== "free") {
+    // Paid users get unlimited
+    dailyMessagesRemaining = 999999;
+  } else if (isNewDay) {
+    // New day = reset to daily limit (1 for free users)
+    dailyMessagesRemaining = profile.dailyMessageLimit ?? 1;
+  } else {
+    // Same day = calculate remaining
+    dailyMessagesRemaining = Math.max(0, (profile.dailyMessageLimit ?? 1) - (profile.dailyMessagesUsed ?? 0));
+  }
+  
   const subscriptionStatus = {
     tier: (profile.subscriptionTier || "free") as "free" | "voice" | "phone",
-    messagesRemaining: profile.trialMessagesRemaining ?? 100,
-    isActive: profile.subscriptionTier !== "free" || (profile.trialMessagesRemaining ?? 100) > 0,
+    messagesRemaining: dailyMessagesRemaining,
+    dailyLimit: profile.dailyMessageLimit ?? 1,
+    dailyUsed: isNewDay ? 0 : (profile.dailyMessagesUsed ?? 0),
+    isNewDay,
+    isActive: profile.subscriptionTier !== "free" || dailyMessagesRemaining > 0,
   };
 
   // Build AI-ready context string
@@ -612,7 +632,7 @@ export function canUseFeature(
       if (subscription.messagesRemaining > 0) return { allowed: true };
       return { 
         allowed: false, 
-        reason: "You've used all your free messages. Upgrade to continue chatting!" 
+        reason: "You've used your free message for today. Come back tomorrow, or upgrade for unlimited conversations!" 
       };
       
     case "voice":
@@ -632,7 +652,7 @@ export function canUseFeature(
 }
 
 /**
- * Decrement message count for free tier users.
+ * Decrement message count for free tier users with daily reset.
  */
 export async function decrementMessageCount(clientId: string): Promise<void> {
   const [profile] = await db
@@ -642,9 +662,23 @@ export async function decrementMessageCount(clientId: string): Promise<void> {
     .limit(1);
   
   if (profile && profile.subscriptionTier === "free") {
-    const remaining = Math.max(0, (profile.trialMessagesRemaining ?? 100) - 1);
-    await updateClientProfile(clientId, { trialMessagesRemaining: remaining });
-    console.log(`[UnifiedRepo] Decremented message count for ${clientId}: ${remaining} remaining`);
+    const now = new Date();
+    const resetDate = profile.dailyMessageResetDate ? new Date(profile.dailyMessageResetDate) : new Date(0);
+    const isNewDay = now.toDateString() !== resetDate.toDateString();
+    
+    if (isNewDay) {
+      // Reset for new day and count this message
+      await updateClientProfile(clientId, { 
+        dailyMessagesUsed: 1,
+        dailyMessageResetDate: now,
+      });
+      console.log(`[UnifiedRepo] New day reset for ${clientId}: 1 message used today`);
+    } else {
+      // Same day - increment usage
+      const newUsed = (profile.dailyMessagesUsed ?? 0) + 1;
+      await updateClientProfile(clientId, { dailyMessagesUsed: newUsed });
+      console.log(`[UnifiedRepo] Incremented daily usage for ${clientId}: ${newUsed} messages used today`);
+    }
   }
 }
 
@@ -657,7 +691,9 @@ export async function upgradeSubscription(
 ): Promise<void> {
   await updateClientProfile(clientId, { 
     subscriptionTier: tier,
-    trialMessagesRemaining: 999999, // Unlimited for paid tiers
+    dailyMessageLimit: 999999, // Unlimited for paid tiers
+    dailyMessagesUsed: 0,
+    trialMessagesRemaining: 999999, // Legacy field
   });
   console.log(`[UnifiedRepo] Upgraded ${clientId} to ${tier} tier`);
 }

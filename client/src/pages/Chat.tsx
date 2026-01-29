@@ -313,18 +313,18 @@ export default function Chat() {
         </div>
       </header>
 
-      {/* Trial Banner */}
+      {/* Daily Message Banner */}
       {trialMessagesRemaining !== null && (
         <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white py-2 px-4 text-center text-sm">
           {trialMessagesRemaining > 0 ? (
             <span>
-              <strong>{trialMessagesRemaining}</strong> free messages remaining. 
-              <a href="/" className="underline font-semibold ml-1">Upgrade for unlimited</a>
+              💜 You have <strong>{trialMessagesRemaining}</strong> free message{trialMessagesRemaining === 1 ? '' : 's'} today. Make it count!
+              <a href="/" className="underline font-semibold ml-2">Upgrade for unlimited support →</a>
             </span>
           ) : (
             <span>
-              Free trial ended. 
-              <a href="/" className="underline font-semibold ml-1">Upgrade to continue</a>
+              You've used your free message for today. Come back tomorrow, or...
+              <a href="/" className="underline font-semibold ml-2">Upgrade now for unlimited support 💜</a>
             </span>
           )}
         </div>

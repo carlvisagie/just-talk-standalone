@@ -307,7 +307,7 @@ export default function Home() {
                     <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-green-400 text-xs">✓</span>
                     </div>
-                    <span className="text-purple-100 text-sm">3 messages per day to start</span>
+                    <span className="text-purple-100 text-sm">1 message per day—<em className="text-purple-300">make it count</em></span>
                   </div>
                   <div className="flex items-start gap-3">
                     <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
