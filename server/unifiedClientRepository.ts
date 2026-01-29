@@ -617,6 +617,13 @@ function getBetterTier(a: string | null, b: string | null): string {
 // SUBSCRIPTION MANAGEMENT
 // ============================================================================
 
+// Owner emails that bypass all limits
+const OWNER_EMAILS = [
+  "carl@purposefuloperations.com",
+  "carl.visagie@gmail.com",
+  "admin@just-talk.io",
+];
+
 /**
  * Check if client can use a feature based on subscription.
  */
@@ -624,7 +631,13 @@ export function canUseFeature(
   context: UnifiedClientContext,
   feature: "text" | "voice" | "phone"
 ): { allowed: boolean; reason?: string } {
-  const { subscription } = context;
+  const { subscription, profile } = context;
+  
+  // OWNER BYPASS - unlimited access for platform owners
+  if (profile.email && OWNER_EMAILS.includes(profile.email.toLowerCase())) {
+    console.log(`[UnifiedRepo] Owner bypass for ${profile.email}`);
+    return { allowed: true };
+  }
   
   switch (feature) {
     case "text":
